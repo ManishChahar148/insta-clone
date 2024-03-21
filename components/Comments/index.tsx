@@ -6,9 +6,12 @@ const { v4 } = require("uuid");
 interface Props {
   comments: Array<Comment>;
   setCommentsVisible: (v: boolean) => void;
-  reelId: number;
-  toggleCommentLike: (reelId: number, commentId: number) => void;
-  addComment: (reelId: number, cmt: Comment) => void;
+  reelId: string;
+  toggleCommentLike: (reelId: string, commentId: string) => void;
+  addComment: (reelId: string, cmt: Comment) => void;
+  deleteComment: (reelId: string, cmtId: string) => void;
+  editComment: (reelId: string, cmtId: string, text: string) => void;
+  replyToComment: (reelId: string, cmtId: string, text: string) => void;
 }
 
 const userName = "_manishchahar148";
@@ -85,7 +88,9 @@ const Comments = (props: Props) => {
                       onClick={() => {
                         setReplyCmtId(cmt.id);
                         setEditCmtId("");
-                        inputRef?.current?.focus();
+                        const inputEle =
+                          inputRef?.current as HTMLInputElement | null;
+                        inputEle?.focus();
                       }}
                     >
                       Reply
@@ -104,7 +109,9 @@ const Comments = (props: Props) => {
                         onClick={() => {
                           setEditCmtId(cmt.id);
                           setReplyCmtId("");
-                          inputRef?.current?.focus();
+                          const inputEle =
+                            inputRef?.current as HTMLInputElement | null;
+                          inputEle?.focus();
                         }}
                       >
                         Edit

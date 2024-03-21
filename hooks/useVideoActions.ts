@@ -2,7 +2,7 @@ import React, { useState } from "react";
 const { v4 } = require("uuid");
 
 export interface Reel {
-  id: number;
+  id: string;
   fileName: string;
   liked: boolean;
   comments: Array<Comment>;
@@ -124,16 +124,16 @@ const nestedValueUpdater = (
 
 const useVideoActions = (): [
   data: Array<Reel>,
-  toggleLike: (id: number) => void,
-  toggleCommentLike: (reelId: number, commentId: number) => void,
-  addComment: (reelId: number, cmt: any) => void,
-  deleteComment: (reelId: number, cmtId: number) => void,
-  editComment: (reelId: number, cmtId: number, text: string) => void,
-  replyToComment: (reelId: number, cmtId: number, text: string) => void
+  toggleLike: (reelId: string) => void,
+  toggleCommentLike: (reelId: string, cmtId: string) => void,
+  addComment: (reelId: string, cmt: any) => void,
+  deleteComment: (reelId: string, cmtId: string) => void,
+  editComment: (reelId: string, cmtId: string, text: string) => void,
+  replyToComment: (reelId: string, cmtId: string, text: string) => void
 ] => {
   const [data, setData] = useState<Array<Reel>>(reelsData);
 
-  const toggleLike = (id: number) => {
+  const toggleLike = (id: string) => {
     const updatedData = nestedValueUpdater(
       data,
       "id",
@@ -145,7 +145,7 @@ const useVideoActions = (): [
     setData(updatedData);
   };
 
-  const toggleCommentLike = (reelId: number, commentId: number) => {
+  const toggleCommentLike = (reelId: string, commentId: string) => {
     console.log(commentId, "commentId");
     const updatedData = data.map((reel) => {
       if (reel.id !== reelId) return reel;
@@ -166,7 +166,7 @@ const useVideoActions = (): [
     setData(updatedData);
   };
 
-  const addComment = (reelId: number, cmt: Comment) => {
+  const addComment = (reelId: string, cmt: Comment) => {
     const updatedData = nestedValueUpdater(
       data,
       "id",
@@ -177,7 +177,7 @@ const useVideoActions = (): [
     setData(updatedData);
   };
 
-  const deleteComment = (reelId: number, cmtId: number) => {
+  const deleteComment = (reelId: string, cmtId: string) => {
     const updatedData = nestedValueUpdater(
       data,
       "id",
@@ -188,7 +188,7 @@ const useVideoActions = (): [
     setData(updatedData);
   };
 
-  const editComment = (reelId: number, cmtId: number, text: string) => {
+  const editComment = (reelId: string, cmtId: string, text: string) => {
     const updatedData = nestedValueUpdater(
       data,
       "id",
@@ -199,7 +199,7 @@ const useVideoActions = (): [
     setData(updatedData);
   };
 
-  const replyToComment = (reelId: number, cmtId: number, text: string) => {
+  const replyToComment = (reelId: string, cmtId: string, text: string) => {
     const updatedData = nestedValueUpdater(
       data,
       "id",

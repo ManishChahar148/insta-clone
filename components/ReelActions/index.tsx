@@ -5,13 +5,16 @@ import { Comment } from "@/hooks/useVideoActions";
 
 interface Props {
   liked: boolean;
-  toggleLike: (id: number) => void;
-  reelId: number;
+  toggleLike: (id: string) => void;
+  reelId: string;
   comments: any;
   commentsVisible: boolean;
   setCommentsVisible: (v: any) => void;
-  toggleCommentLike: (reelId: number, commentId: number) => void;
-  addComment: (reelId: number, cmt: Comment) => void;
+  toggleCommentLike: (reelId: string, commentId: string) => void;
+  addComment: (reelId: string, cmt: Comment) => void;
+  deleteComment: (reelId: string, cmtId: string) => void;
+  editComment: (reelId: string, cmtId: string, text: string) => void;
+  replyToComment: (reelId: string, cmtId: string, text: string) => void;
 }
 
 const ReelActions = (props: Props) => {
