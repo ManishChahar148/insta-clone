@@ -93,6 +93,7 @@ const Reels = () => {
             className="snap-start w-full sm:w-96 h-full min-h-full relative flex items-center"
           >
             <Video
+              poster={reelData.poster}
               handleOnVideoClick={handleOnVideoClick}
               idx={key}
               muted={muted}

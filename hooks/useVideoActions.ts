@@ -4,6 +4,7 @@ const { v4 } = require("uuid");
 export interface Reel {
   id: string;
   fileName: string;
+  poster: string;
   liked: boolean;
   comments: Array<Comment>;
 }
@@ -21,6 +22,7 @@ const reelsData = [
   {
     id: v4(),
     fileName: "v1.mp4",
+    poster: "/videos/posters/v1.png",
     liked: true,
     comments: [
       {
@@ -43,6 +45,7 @@ const reelsData = [
   {
     id: v4(),
     fileName: "v2.mp4",
+    poster: "/videos/posters/v2.png",
     liked: false,
     comments: [
       {
@@ -64,6 +67,7 @@ const reelsData = [
   {
     id: v4(),
     fileName: "v3.mp4",
+    poster: "/videos/posters/v3.png",
     liked: false,
     comments: [
       {
@@ -85,6 +89,7 @@ const reelsData = [
   {
     id: v4(),
     fileName: "v4.mov",
+    poster: "/videos/posters/v4.png",
     liked: true,
     comments: [
       {

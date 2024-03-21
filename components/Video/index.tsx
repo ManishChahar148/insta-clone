@@ -5,12 +5,14 @@ interface Props {
   handleOnVideoClick: (key: number) => void;
   muted: boolean;
   src: string;
+  poster: string;
 }
 
 const Video = (props: Props) => {
-  const { idx, handleOnVideoClick, muted, src } = props;
+  const { idx, handleOnVideoClick, muted, src, poster } = props;
   return (
     <video
+      poster={poster}
       id={`video-${idx}`}
       onClick={() => handleOnVideoClick(idx)}
       className="w-full h-full sm:h-[95%] object-cover"
