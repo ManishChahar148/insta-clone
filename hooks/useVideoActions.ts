@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+const { v4 } = require("uuid");
 
 export interface Reel {
   id: number;
@@ -8,49 +9,30 @@ export interface Reel {
 }
 
 export interface Comment {
-  id: number;
+  id: string;
   text: string;
   userName: string;
   profilePic: string;
   liked: boolean;
+  replies?: Array<string>;
 }
 
 const reelsData = [
   {
-    id: 1,
+    id: v4(),
     fileName: "v1.mp4",
     liked: true,
     comments: [
       {
-        id: 1,
+        id: v4(),
         text: "good",
-        userName: "_manishchahar148",
+        userName: "_manishchahar149",
         profilePic: "/images/profile.jpg",
         liked: false,
+        replies: ["xyz", "pqr"],
       },
       {
-        id: 2,
-        text: "Amazing",
-        userName: "_manishchahar148",
-        profilePic: "/images/profile.jpg",
-        liked: true,
-      },
-      {
-        id: 3,
-        text: "Amazing",
-        userName: "_manishchahar148",
-        profilePic: "/images/profile.jpg",
-        liked: true,
-      },
-      {
-        id: 4,
-        text: "Amazing",
-        userName: "_manishchahar148",
-        profilePic: "/images/profile.jpg",
-        liked: true,
-      },
-      {
-        id: 5,
+        id: v4(),
         text: "Amazing",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
@@ -59,19 +41,19 @@ const reelsData = [
     ],
   },
   {
-    id: 2,
+    id: v4(),
     fileName: "v2.mp4",
     liked: false,
     comments: [
       {
-        id: 1,
+        id: v4(),
         text: "good",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
         liked: false,
       },
       {
-        id: 2,
+        id: v4(),
         text: "Amazing",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
@@ -80,19 +62,19 @@ const reelsData = [
     ],
   },
   {
-    id: 3,
+    id: v4(),
     fileName: "v3.mp4",
     liked: false,
     comments: [
       {
-        id: 1,
+        id: v4(),
         text: "good",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
         liked: false,
       },
       {
-        id: 2,
+        id: v4(),
         text: "Amazing",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
@@ -101,19 +83,19 @@ const reelsData = [
     ],
   },
   {
-    id: 4,
+    id: v4(),
     fileName: "v4.mov",
     liked: true,
     comments: [
       {
-        id: 1,
+        id: v4(),
         text: "good",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
         liked: false,
       },
       {
-        id: 2,
+        id: v4(),
         text: "Amazing",
         userName: "_manishchahar148",
         profilePic: "/images/profile.jpg",
@@ -144,24 +126,19 @@ const useVideoActions = (): [
   data: Array<Reel>,
   toggleLike: (id: number) => void,
   toggleCommentLike: (reelId: number, commentId: number) => void,
-  addComment: (reelId: number, cmt: any) => void
+  addComment: (reelId: number, cmt: any) => void,
+  deleteComment: (reelId: number, cmtId: number) => void,
+  editComment: (reelId: number, cmtId: number, text: string) => void,
+  replyToComment: (reelId: number, cmtId: number, text: string) => void
 ] => {
   const [data, setData] = useState<Array<Reel>>(reelsData);
 
   const toggleLike = (id: number) => {
-    // const updatedData = data.map((reel) => {
-    //   if (reel.id !== id) return reel;
-    //   return {
-    //     ...reel,
-    //     liked: !reel.liked,
-    //   };
-    // });
-
     const updatedData = nestedValueUpdater(
       data,
       "id",
       id,
-      "text",
+      "liked",
       (value: any) => !value
     );
 
@@ -169,6 +146,7 @@ const useVideoActions = (): [
   };
 
   const toggleCommentLike = (reelId: number, commentId: number) => {
+    console.log(commentId, "commentId");
     const updatedData = data.map((reel) => {
       if (reel.id !== reelId) return reel;
       const comments = reel.comments;
@@ -194,12 +172,61 @@ const useVideoActions = (): [
       "id",
       reelId,
       "comments",
-      (value: any) => [...value, cmt]
+      (value: any) => [cmt, ...value]
     );
     setData(updatedData);
   };
 
-  return [data, toggleLike, toggleCommentLike, addComment];
+  const deleteComment = (reelId: number, cmtId: number) => {
+    const updatedData = nestedValueUpdater(
+      data,
+      "id",
+      reelId,
+      "comments",
+      (cmts: any) => cmts.filter((cmt: Comment) => cmt.id !== cmtId)
+    );
+    setData(updatedData);
+  };
+
+  const editComment = (reelId: number, cmtId: number, text: string) => {
+    const updatedData = nestedValueUpdater(
+      data,
+      "id",
+      reelId,
+      "comments",
+      (cmts: any) => nestedValueUpdater(cmts, "id", cmtId, "text", () => text)
+    );
+    setData(updatedData);
+  };
+
+  const replyToComment = (reelId: number, cmtId: number, text: string) => {
+    const updatedData = nestedValueUpdater(
+      data,
+      "id",
+      reelId,
+      "comments",
+      (cmts: any) =>
+        nestedValueUpdater(
+          cmts,
+          "id",
+          cmtId,
+          "replies",
+          (replies: Array<string>) =>
+            Array.isArray(replies) ? [...replies, text] : [text]
+        )
+    );
+    setData(updatedData);
+  };
+
+  return [
+    data,
+    toggleLike,
+    toggleCommentLike,
+    addComment,
+    deleteComment,
+    editComment,
+    replyToComment,
+  ];
 };
 
 export default useVideoActions;

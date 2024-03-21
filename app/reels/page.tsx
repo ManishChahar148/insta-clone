@@ -10,8 +10,15 @@ const Reels = () => {
   const [playingVideoId, setPlayingVideoId] = useState<string>("video-0");
   const [commentsVisible, setCommentsVisible] = useState(false);
 
-  const [reelsData, toggleLike, toggleCommentLike, addComment] =
-    useVideoActions();
+  const [
+    reelsData,
+    toggleLike,
+    toggleCommentLike,
+    addComment,
+    deleteComment,
+    editComment,
+    replyToComment,
+  ] = useVideoActions();
 
   const observerCallback = (entries: any, observer: any) => {
     // entries.forEach((e) => console.log(e, "====", entries.length));
@@ -110,6 +117,9 @@ const Reels = () => {
               setCommentsVisible={setCommentsVisible}
               toggleCommentLike={toggleCommentLike}
               addComment={addComment}
+              deleteComment={deleteComment}
+              editComment={editComment}
+              replyToComment={replyToComment}
             ></ReelActions>
           </div>
         );

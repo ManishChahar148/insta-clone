@@ -24,6 +24,9 @@ const ReelActions = (props: Props) => {
     setCommentsVisible,
     toggleCommentLike,
     addComment,
+    deleteComment,
+    editComment,
+    replyToComment,
   } = props;
   return (
     <div className="bottom-16 sm:bottom-6 right-2 sm:-right-[36px] absolute ">
@@ -45,7 +48,13 @@ const ReelActions = (props: Props) => {
           </button>
         </li>
         <li className="py-2 -rotate-45">
-          <button>
+          <button
+            onClick={() => {
+              navigator.share({
+                url: location.href,
+              });
+            }}
+          >
             <span className="material-symbols-outlined">send</span>
           </button>
         </li>
@@ -78,6 +87,9 @@ const ReelActions = (props: Props) => {
           comments={comments}
           toggleCommentLike={toggleCommentLike}
           addComment={addComment}
+          deleteComment={deleteComment}
+          editComment={editComment}
+          replyToComment={replyToComment}
         />
       )}
     </div>
