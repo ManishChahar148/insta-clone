@@ -15,7 +15,7 @@ const Video = (props: Props) => {
       onClick={() => handleOnVideoClick(idx)}
       className="w-full h-full sm:h-[95%] object-cover"
       playsInline
-      autoPlay
+      autoPlay={idx === 0}
       muted={muted}
       loop
       preload="none"
