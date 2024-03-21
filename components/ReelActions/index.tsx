@@ -53,7 +53,7 @@ const ReelActions = (props: Props) => {
         <li className="py-2 -rotate-45">
           <button
             onClick={() => {
-              navigator.share({
+              navigator?.share?.({
                 url: location.href,
               });
             }}
