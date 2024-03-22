@@ -88,7 +88,7 @@ const reelsData = [
   },
   {
     id: v4(),
-    fileName: "v4.mov",
+    fileName: "v4.mp4",
     poster: "/videos/posters/v4.png",
     liked: true,
     comments: [
